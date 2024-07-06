@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>扇形展开</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .cards {
+            position: relative;
+            width: 100px;
+            height: 150px;
+        }
+
+        .card {
+            position: absolute;
+            width: 100px;
+            height: 150px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: all 0.5s cubic-bezier(0.25, 0.8, 0.25, 1);
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            color: white;
+            left: 0;
+            top: 0;
+        }
+
+        .card:nth-child(1) {
+            background-color: #FF6B6B;
+        }
+
+        .card:nth-child(2) {
+            background-color: #4ECDC4;
+        }
+
+        .card:nth-child(3) {
+            background-color: #45B7D1;
+        }
+
+        .card:nth-child(4) {
+            background-color: #FFA07A;
+        }
+
+        .card:nth-child(5) {
+            background-color: #C06C84;
+        }
+
+        .expanded .card:nth-child(1) {
+            transform: translate(-100px, -50px) rotate(-20deg);
+        }
+
+        .expanded .card:nth-child(2) {
+            transform: translate(-50px, -100px) rotate(-10deg);
+        }
+
+        .expanded .card:nth-child(3) {
+            transform: translate(0, -120px);
+        }
+
+        .expanded .card:nth-child(4) {
+            transform: translate(50px, -100px) rotate(10deg);
+        }
+
+        .expanded .card:nth-child(5) {
+            transform: translate(100px, -50px) rotate(20deg);
+        }
+
+        .toggle-btn {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .toggle-btn:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="cards">
+            <div class="card">1</div>
+            <div class="card">2</div>
+            <div class="card">3</div>
+            <div class="card">4</div>
+            <div class="card">5</div>
+        </div>
+        <button class="toggle-btn">展开or收起</button>
+    </div>
+
+    <script>
+        const container = document.querySelector('.container');
+        const toggleBtn = document.querySelector('.toggle-btn');
+
+        toggleBtn.addEventListener('click', () => {
+            container.classList.toggle('expanded');
+        });
+    </script>
+</body>
+
+</html>

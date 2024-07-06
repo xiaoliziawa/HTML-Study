@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动态填充</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .water-ball {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            border: 2px solid #3498db;
+            overflow: hidden;
+            position: relative;
+            margin: 0 auto 20px;
+        }
+
+        .water {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 200%;
+            height: 100%;
+            background: linear-gradient(180deg, rgba(52, 152, 219, 0.8) 0%, rgba(52, 152, 219, 0.4) 100%);
+            transition: transform 0.3s ease-out;
+            transform-origin: 50% 100%;
+        }
+
+        .water::before,
+        .water::after {
+            content: "";
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            top: 0;
+            left: 0;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 40%;
+            transform: translate3d(0, 0, 0);
+        }
+
+        .water::before {
+            animation: wave 6s infinite linear;
+        }
+
+        .water::after {
+            animation: wave 8s infinite linear;
+        }
+
+        @keyframes wave {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .slider {
+            width: 200px;
+            margin-bottom: 20px;
+        }
+
+        .percentage {
+            font-size: 24px;
+            font-weight: bold;
+            color: #3498db;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="water-ball">
+            <div class="water"></div>
+        </div>
+        <input type="range" min="0" max="100" value="0" class="slider" id="waterLevel">
+        <div class="percentage"><span id="levelValue">0</span>%</div>
+    </div>
+
+    <script>
+        const slider = document.getElementById('waterLevel');
+        const water = document.querySelector('.water');
+        const levelValue = document.getElementById('levelValue');
+
+        slider.oninput = function () {
+            const level = this.value;
+            water.style.transform = `translate(0, ${100 - level}%)`;
+            levelValue.textContent = level;
+        }
+    </script>
+</body>
+
+</html>

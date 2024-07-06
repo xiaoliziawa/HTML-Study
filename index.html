@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>导航</title>
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --hover-color: #2980b9;
+            --background-color: #ecf0f1;
+            --card-color: #ffffff;
+            --text-color: #34495e;
+        }
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background-color: var(--background-color);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+        }
+        h1 {
+            color: var(--text-color);
+            text-align: center;
+            margin-bottom: 30px;
+            font-weight: 300;
+            font-size: 2.5em;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background-color: var(--card-color);
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .link {
+            display: block;
+            padding: 20px;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: background-color 0.3s ease;
+        }
+        .link:hover {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        .link-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+        .link-description {
+            font-size: 0.9em;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>开始你的学习</h1>
+        <div class="grid">
+            <div class="card">
+                <a href="html/Study-1.html" class="link">
+                    <div class="link-title">圆形滚动进度条</div>
+                    <div class="link-description">通过鼠标滚轮来进行进度条加载</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-2.html" class="link">
+                    <div class="link-title">动态填充</div>
+                    <div class="link-description">水球填充演示</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-3.html" class="link">
+                    <div class="link-title">扇形展开</div>
+                    <div class="link-description">卡片扇形展开动画</div>
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
