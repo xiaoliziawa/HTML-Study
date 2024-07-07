@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown(WIP)</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.8;
+            color: #333;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f9f9f9;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            color: #2c3e50;
+        }
+
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow: auto;
+            display: none;
+        }
+
+        code {
+            background: #ecf0f1;
+            padding: 2px 4px;
+            border-radius: 3px;
+        }
+
+        .markdown-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .markdown-content pre code {
+            background: #2c3e50;
+            color: #ecf0f1;
+        }
+
+        .markdown-content blockquote {
+            border-left: 5px solid #3498db;
+            padding-left: 10px;
+            color: #555;
+            margin: 20px 0;
+            background: #f4f4f4;
+        }
+    </style>
+</head>
+
+<body>
+    <pre id="markdown-content">
+# 欢迎使用 Markdown
+
+这是一个段落。
+
+## 列表示例
+
+- 项目 1
+- 项目 2
+- 项目 3
+
+## 链接示例
+
+[访问 Google](https://www.google.com)
+
+## 代码示例(WIP)
+
+\`\`\`js
+console.log("markdown-test")
+\`\`\`
+    </pre>
+
+    <div id="content" class="markdown-content"></div>
+
+    <!-- 引入本地的 marked.min.js 文件 -->
+    <script src="../node_modules/marked/marked.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
+    <script>
+        // 获取包含 Markdown 内容的 <pre> 标签
+        const pre = document.getElementById('markdown-content');
+        const markdown = pre.textContent.trim();
+
+        // 将 Markdown 转换为 HTML 并插入到页面中
+        document.getElementById('content').innerHTML = marked.parse(markdown);
+
+        // 对代码块进行高亮处理
+        document.querySelectorAll('pre code').forEach((block) => {
+            hljs.highlightElement(block);
+        });
+    </script>
+</body>
+
+</html>
