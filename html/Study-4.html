@@ -4,121 +4,182 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Markdown(WIP)</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/styles/default.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+    <title>单页面跳转</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            line-height: 1.8;
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
             color: #333;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: #f9f9f9;
         }
 
-        h1,
-        h2,
-        h3,
-        h4,
-        h5,
-        h6 {
-            color: #2c3e50;
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
         }
 
-        a {
-            color: #3498db;
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: #fff;
             text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
         }
 
-        a:hover {
-            text-decoration: underline;
+        nav ul li a:hover {
+            color: #ddd;
         }
 
-        pre {
-            background: #2c3e50;
-            color: #ecf0f1;
-            padding: 15px;
-            border-radius: 5px;
-            overflow: auto;
+        section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            scroll-margin-top: 4rem;
+        }
+
+        #label1 {
+            background-color: #f4f4f4;
+        }
+
+        #label2 {
+            background-color: #e8e8e8;
+        }
+
+        #label3 {
+            background-color: #dcdcdc;
+        }
+
+        #label4 {
+            background-color: #d0d0d0;
+        }
+
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
             display: none;
+            transition: background-color 0.3s ease;
         }
 
-        code {
-            background: #ecf0f1;
-            padding: 2px 4px;
-            border-radius: 3px;
-        }
-
-        .markdown-content {
-            background: #fff;
-            padding: 20px;
-            border-radius: 5px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
-
-        .markdown-content pre code {
-            background: #2c3e50;
-            color: #ecf0f1;
-        }
-
-        .markdown-content blockquote {
-            border-left: 5px solid #3498db;
-            padding-left: 10px;
-            color: #555;
-            margin: 20px 0;
-            background: #f4f4f4;
+        #back-to-top:hover {
+            background-color: #555;
         }
     </style>
 </head>
 
 <body>
-    <pre id="markdown-content">
-# 欢迎使用 Markdown
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#label1">标签1</a></li>
+                <li><a href="#label2">标签2</a></li>
+                <li><a href="#label3">标签3</a></li>
+                <li><a href="#label4">标签4</a></li>
+            </ul>
+        </nav>
+    </header>
 
-这是一个段落。
+    <section id="label1">
+        <h1>标签1</h1>
+    </section>
 
-# 重点标注
+    <section id="label2">
+        <h2>标签2</h2>
+    </section>
 
-*Hello World*
+    <section id="label3">
+        <h2>标签3</h2>
+    </section>
 
-**Hello World**
+    <section id="label4">
+        <h2>标签4</h2>
+    </section>
 
-## 列表示例
+    <button id="back-to-top" title="返回顶部">⭕</button>
 
-- 项目 1
-- 项目 2
-- 项目 3
-
-## 链接示例
-
-[访问 Google](https://www.google.com)
-
-## 代码示例(WIP)
-
-\`\`\`js
-console.log("markdown-test")
-\`\`\`
-    </pre>
-
-    <div id="content" class="markdown-content"></div>
-
-    <!-- 引入本地的 marked.min.js 文件 -->
-    <script src="../node_modules/marked/marked.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.3.1/highlight.min.js"></script>
     <script>
-        // 获取包含 Markdown 内容的 <pre> 标签
-        const pre = document.getElementById('markdown-content');
-        const markdown = pre.textContent.trim();
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
 
-        // 将 Markdown 转换为 HTML 并插入到页面中
-        document.getElementById('content').innerHTML = marked.parse(markdown);
-
-        // 对代码块进行高亮处理
-        document.querySelectorAll('pre code').forEach((block) => {
-            hljs.highlightElement(block);
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
         });
+
+        // 按钮功能
+        var backToTopButton = document.getElementById("back-to-top");
+
+        // 滚动超过20px时显示按钮
+        window.onscroll = function () { scrollFunction() };
+
+        function scrollFunction() {
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                backToTopButton.style.display = "block";
+            } else {
+                backToTopButton.style.display = "none";
+            }
+        }
+
+        // 动画
+        backToTopButton.onclick = function () {
+            scrollToTop(1000); // 1000ms = 1秒
+        }
+
+        function scrollToTop(duration) {
+            // 取消之前的动画
+            if (scrollToTopTimer) {
+                clearInterval(scrollToTopTimer);
+            }
+
+            var start = window.pageYOffset;
+            var startTime = 'now' in window.performance ? performance.now() : new Date().getTime();
+
+            var scrollToTopTimer = setInterval(function () {
+                var now = 'now' in window.performance ? performance.now() : new Date().getTime();
+                var time = Math.min(1, ((now - startTime) / duration));
+                var timeFunction = easeInOutCubic(time);
+                window.scroll(0, Math.ceil((1 - timeFunction) * start));
+                if (window.pageYOffset === 0) {
+                    clearInterval(scrollToTopTimer);
+                }
+            }, 1000 / 60); // 60 fps
+        }
+
+        // 缓动函数
+        function easeInOutCubic(t) {
+            return t < 0.5 ? 4 * t * t * t : (t - 1) * (2 * t - 2) * (2 * t - 2) + 1;
+        }
     </script>
 </body>
 
