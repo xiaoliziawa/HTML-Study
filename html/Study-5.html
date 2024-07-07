@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown Renderer Shiki</title>
+    <script src="https://unpkg.com/shiki@0.14.1"></script>
+    <script>
+        window.shiki = window.shiki || {};
+    </script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        pre {
+            padding: 16px;
+            overflow: auto;
+            font-size: 85%;
+            line-height: 1.45;
+            background-color: #f6f8fa;
+            border-radius: 6px;
+        }
+
+        #error-message {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Markdown渲染(Shiki)</h1>
+    <textarea id="markdown-input" rows="10" cols="80">
+# Hello, Markdown!
+
+*斜体*
+
+**加粗**
+
+[我是一个网站链接](https://xiaoliziawa.github.io/HTML-Study/)
+
+代码示例：
+
+# JavaScript代码块示例
+
+```javascript
+function greet(name) {
+    console.log(`Hello, ${name}!`);
+}
+greet('World');
+```
+# Java代码块示例
+
+```java
+public class HelloWorld {
+    public static void main(String[] args) {
+        System.out.println("Hello, World!");
+    }
+}
+```
+# Python代码示例
+
+```py
+print("HelloWorld")
+```
+</textarea>
+    <button onclick="renderMarkdown()">进行渲染</button>
+    <div id="error-message"></div>
+    <div id="output"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/marked@4.0.16/marked.min.js"></script>
+    <script>
+        let highlighter;
+
+        window.onload = async function () {
+            if (typeof shiki === 'undefined') {
+                showError('Shiki is not defined. The library may not have loaded correctly.');
+                return;
+            }
+
+            try {
+                console.log('Starting Shiki initialization...');
+                highlighter = await shiki.getHighlighter({
+                    theme: 'github-light'
+                });
+                console.log('Shiki initialized successfully');
+            } catch (error) {
+                showError('Failed to initialize Shiki: ' + error.message);
+            }
+        }
+
+        async function renderMarkdown() {
+            const input = document.getElementById('markdown-input').value;
+            const output = document.getElementById('output');
+            const errorMessage = document.getElementById('error-message');
+
+            errorMessage.textContent = ''; 
+
+            if (!highlighter) {
+                console.log('Highlighter not initialized, attempting to initialize...');
+                try {
+                    highlighter = await shiki.getHighlighter({
+                        theme: 'github-light'
+                    });
+                    console.log('Shiki initialized successfully');
+                } catch (error) {
+                    showError('Could not initialize syntax highlighter: ' + error.message);
+                    return;
+                }
+            }
+
+            if (typeof marked === 'undefined') {
+                showError('Marked library is not loaded. Please check your internet connection and reload the page.');
+                return;
+            }
+
+            marked.setOptions({
+                highlight: (code, lang) => {
+                    try {
+                        return highlighter.codeToHtml(code, { lang });
+                    } catch (error) {
+                        console.error('Error in syntax highlighting:', error);
+                        return code; 
+                    }
+                }
+            });
+
+            try {
+                output.innerHTML = marked.parse(input);
+            } catch (error) {
+                showError('Failed to render Markdown: ' + error.message);
+            }
+        }
+
+        function showError(message) {
+            console.error(message);
+            document.getElementById('error-message').textContent = message;
+        }
+    </script>
