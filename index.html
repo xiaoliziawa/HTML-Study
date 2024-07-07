@@ -70,11 +70,45 @@
             font-size: 0.9em;
             opacity: 0.8;
         }
+        .search-container {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            display: flex;
+            align-items: center;
+        }
+        .search-icon {
+            font-size: 24px;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+        #search {
+            width: 0;
+            padding: 10px;
+            border: none;
+            border-bottom: 2px solid var(--primary-color);
+            font-size: 1em;
+            background: transparent;
+            color: var(--text-color);
+            transition: width 0.3s ease;
+            outline: none;
+        }
+        #search.active {
+            width: 200px;
+            margin-left: 10px;
+        }
+        .search-icon.hidden {
+            opacity: 0;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>开始你的学习</h1>
+        <div class="search-container">
+            <span class="search-icon" onclick="toggleSearch()">🔍</span>
+            <input type="text" id="search" placeholder="搜索...">
+        </div>
         <div class="grid">
             <div class="card">
                 <a href="html/Study-1.html" class="link">
@@ -108,5 +142,48 @@
             </div>
         </div>
     </div>
+
+    <script>
+        function toggleSearch() {
+            const searchInput = document.getElementById('search');
+            const searchIcon = document.querySelector('.search-icon');
+            searchInput.classList.toggle('active');
+            searchIcon.classList.toggle('hidden');
+            if (searchInput.classList.contains('active')) {
+                searchInput.focus();
+            } else {
+                searchInput.value = '';
+                filterCards('');
+            }
+        }
+
+        function filterCards(searchTerm) {
+            const cards = document.querySelectorAll('.card');
+            searchTerm = searchTerm.toLowerCase();
+
+            cards.forEach(card => {
+                const title = card.querySelector('.link-title').textContent.toLowerCase();
+                const description = card.querySelector('.link-description').textContent.toLowerCase();
+                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                    card.style.display = 'block';
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+        }
+
+        document.getElementById('search').addEventListener('input', function() {
+            filterCards(this.value);
+        });
+
+        // 点击页面其他地方关闭搜索框
+        document.addEventListener('click', function(event) {
+            const searchContainer = document.querySelector('.search-container');
+            const searchInput = document.getElementById('search');
+            if (!searchContainer.contains(event.target) && searchInput.classList.contains('active')) {
+                toggleSearch();
+            }
+        });
+    </script>
 </body>
 </html>
