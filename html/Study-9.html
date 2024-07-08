@@ -79,7 +79,13 @@
         async function initializeHighlighter() {
             highlighter = await shiki.getHighlighter({
                 theme: 'github-light',
-                langs: ['markdown', 'javascript', 'html', 'css', 'python', 'java', 'c', 'cpp', 'zenscript', 'vue', 'php', 'go', 'ruby', 'shell', 'bash', 'vb', 'lua', 'rust', 'xml', 'json', 'kotlin', 'yaml']
+                langs: [
+                    'markdown', 'javascript', 'html', 'css', 'python',
+                    'java', 'c', 'cpp', 'zenscript', 'vue',
+                    'php', 'go', 'ruby', 'shell', 'bash',
+                    'vb', 'lua', 'rust', 'xml', 'json',
+                    'kotlin', 'yaml', 'xml'
+                ]
             });
             updatePreview();
         }
