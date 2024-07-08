@@ -49,8 +49,14 @@
         <button onclick="insertMarkdown('# ')">标题</button>
         <button onclick="insertMarkdown('- ')">列表</button>
         <button onclick="insertCodeBlock('javascript')">JavaScript代码块</button>
-        <button onclick="insertCodeBlock('java')">Java代码块</button>
         <button onclick="insertCodeBlock('python')">Python代码块</button>
+        <button onclick="insertCodeBlock('java')">Java代码块</button>
+        <button onclick="insertCodeBlock('cpp')">C++代码块</button>
+        <button onclick="insertCodeBlock('csharp')">C#代码块</button>
+        <button onclick="insertCodeBlock('go')">Go代码块</button>
+        <button onclick="insertCodeBlock('rust')">Rust代码块</button>
+        <button onclick="insertCodeBlock('php')">PHP代码块</button>
+        <button onclick="insertCodeBlock('ruby')">Ruby代码块</button>
     </div>
     <div id="container">
         <div id="editor-container">
@@ -70,14 +76,35 @@
         async function initializeHighlighter() {
             highlighter = await shiki.getHighlighter({
                 theme: 'github-light',
-                langs: ['markdown', 'javascript', 'html', 'css', 'python', 'java', 'c', 'cpp']
+                langs: [
+                    'markdown', 'javascript', 'typescript', 'html', 'css', 'xml', 'json', 'yaml',
+                    'python', 'java', 'c', 'cpp', 'csharp', 'go', 'rust', 'swift', 'kotlin',
+                    'php', 'ruby', 'perl', 'shell', 'sql', 'lua', 'r', 'matlab',
+                    'haskell', 'scala', 'groovy', 'objective-c', 'vb', 'latex',
+                    'dockerfile', 'makefile', 'bash', 'powershell',
+                    'graphql', 'handlebars', 'less', 'scss', 'stylus',
+                    'wasm', 'dart', 'elixir', 'erlang', 'fortran', 'fsharp',
+                    'julia', 'lisp', 'ocaml', 'pascal', 'prolog', 'pug',
+                    'scheme', 'smalltalk', 'toml', 'verilog', 'vhdl'
+                ]
             });
             updatePreview();
         }
 
         initializeHighlighter();
 
-        editor.addEventListener('input', updatePreview);
+        function throttle(func, limit) {
+            let inThrottle;
+            return function() {
+                const args = arguments;
+                const context = this;
+                if (!inThrottle) {
+                    func.apply(context, args);
+                    inThrottle = true;
+                    setTimeout(() => inThrottle = false, limit);
+                }
+            }
+        }
 
         function updatePreview() {
             const markdown = editor.value;
@@ -93,6 +120,10 @@
             localStorage.setItem('markdownContent', markdown);
         }
 
+        const throttledUpdatePreview = throttle(updatePreview, 100);
+
+        editor.addEventListener('input', throttledUpdatePreview);
+
         function insertMarkdown(syntax) {
             const start = editor.selectionStart;
             const end = editor.selectionEnd;
@@ -104,7 +135,7 @@
             editor.selectionStart = start + syntax.length;
             editor.selectionEnd = end + syntax.length;
             editor.focus();
-            updatePreview();
+            throttledUpdatePreview();
         }
 
         function insertCodeBlock(lang) {
@@ -117,10 +148,9 @@
             editor.selectionStart = start + codeBlock.length - 4;
             editor.selectionEnd = start + codeBlock.length - 4;
             editor.focus();
-            updatePreview();
+            throttledUpdatePreview();
         }
 
-        // 加载保存的内容
         const savedContent = localStorage.getItem('markdownContent');
         if (savedContent) {
             editor.value = savedContent;
