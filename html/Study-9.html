@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,30 +17,38 @@
             flex-direction: column;
             height: 100vh;
         }
+
         #container {
             display: flex;
             flex-grow: 1;
         }
-        #editor-container, #preview-container {
+
+        #editor-container,
+        #preview-container {
             flex: 1;
             display: flex;
             flex-direction: column;
             margin: 0 10px;
         }
-        #editor, #preview {
+
+        #editor,
+        #preview {
             flex-grow: 1;
             border: 1px solid #ccc;
             padding: 10px;
             overflow-y: auto;
         }
+
         #preview {
             background-color: #f9f9f9;
         }
+
         #toolbar {
             margin-bottom: 10px;
         }
     </style>
 </head>
+
 <body>
     <h1>Shiki Markdown 实时渲染</h1>
     <div id="toolbar">
@@ -70,7 +79,7 @@
         async function initializeHighlighter() {
             highlighter = await shiki.getHighlighter({
                 theme: 'github-light',
-                langs: ['markdown', 'javascript', 'html', 'css', 'python', 'java', 'c', 'cpp']
+                langs: ['markdown', 'javascript', 'html', 'css', 'python', 'java', 'c', 'cpp', 'zenscript', 'vue', 'php', 'go', 'ruby', 'shell', 'bash', 'vb', 'lua', 'rust', 'xml', 'json', 'kotlin', 'yaml']
             });
             updatePreview();
         }
@@ -79,7 +88,7 @@
 
         function throttle(func, limit) {
             let inThrottle;
-            return function() {
+            return function () {
                 const args = arguments;
                 const context = this;
                 if (!inThrottle) {
@@ -104,7 +113,7 @@
             localStorage.setItem('markdownContent', markdown);
         }
 
-        const throttledUpdatePreview = throttle(updatePreview, 100);
+        const throttledUpdatePreview = throttle(updatePreview, 50);
 
         editor.addEventListener('input', throttledUpdatePreview);
 
@@ -142,4 +151,5 @@
         }
     </script>
 </body>
+
 </html>
