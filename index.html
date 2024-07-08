@@ -130,7 +130,6 @@
             height: 32px;
             fill: #24292e;
         }
-        /* 狗屎适配，泥马勒戈壁，气笑了😀 */
         @media (max-width: 600px) {
             .grid {
                 grid-template-columns: 1fr;
@@ -153,6 +152,7 @@
             }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.13.2/dist/index.js"></script>
 </head>
 <body>
     <div class="container">
@@ -242,11 +242,15 @@
         function filterCards(searchTerm) {
             const cards = document.querySelectorAll('.card');
             searchTerm = searchTerm.toLowerCase();
+            const pinyinSearchTerm = pinyinPro.pinyin(searchTerm, { toneType: 'none', type: 'array' }).join('');
 
             cards.forEach(card => {
-                const title = card.querySelector('.link-title').textContent.toLowerCase();
-                const description = card.querySelector('.link-description').textContent.toLowerCase();
-                if (title.includes(searchTerm) || description.includes(searchTerm)) {
+                const title = card.querySelector('.link-title').textContent;
+                const description = card.querySelector('.link-description').textContent;
+                const content = title + ' ' + description;
+                const pinyinContent = pinyinPro.pinyin(content, { toneType: 'none', type: 'array' }).join('');
+
+                if (content.toLowerCase().includes(searchTerm) || pinyinContent.includes(pinyinSearchTerm)) {
                     card.style.display = 'flex';
                 } else {
                     card.style.display = 'none';
