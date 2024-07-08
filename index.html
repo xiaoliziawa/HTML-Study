@@ -40,9 +40,6 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
-            scroll-snap-type: y mandatory;
-            height: calc(100vh - 150px);
-            overflow-y: auto;
             padding: 20px;
         }
         .card {
@@ -51,7 +48,6 @@
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
-            scroll-snap-align: start;
             display: flex;
             flex-direction: column;
         }
@@ -79,11 +75,13 @@
         .link-title {
             font-size: 1.2em;
             margin-bottom: 10px;
+            word-wrap: break-word;
         }
         .link-description {
             font-size: 0.9em;
             color: var(--secondary-text-color);
             transition: color 0.3s ease;
+            word-wrap: break-word;
         }
         .search-container {
             display: flex;
@@ -132,8 +130,7 @@
             height: 32px;
             fill: #24292e;
         }
-
-        /* 移动端适配标签页描述(我真的服了，改一处代码另一处就坏，人要麻了😇😡💩) */
+        /* 狗屎适配，泥马勒戈壁，气笑了😀 */
         @media (max-width: 600px) {
             .grid {
                 grid-template-columns: 1fr;
@@ -150,7 +147,9 @@
             }
             .link-description {
                 font-size: 0.8em;
-                display: block; 
+            }
+            #search.active {
+                width: 150px;
             }
         }
     </style>
