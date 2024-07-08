@@ -94,17 +94,7 @@
         <div class="percentage"><span id="levelValue">0</span>%</div>
     </div>
 
-    <script>
-        const slider = document.getElementById('waterLevel');
-        const water = document.querySelector('.water');
-        const levelValue = document.getElementById('levelValue');
-
-        slider.oninput = function () {
-            const level = this.value;
-            water.style.transform = `translate(0, ${100 - level}%)`;
-            levelValue.textContent = level;
-        }
-    </script>
+    <script src="scripts/Study-2.js"></script>
 </body>
 
 </html>
