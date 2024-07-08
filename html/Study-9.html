@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shiki Markdown 实时渲染</title>
+    <script src="https://unpkg.com/shiki@0.14.1/dist/index.unpkg.iife.js"></script>
+    <script src="https://unpkg.com/marked@4.0.16/marked.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+        #container {
+            display: flex;
+            flex-grow: 1;
+        }
+        #editor-container, #preview-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin: 0 10px;
+        }
+        #editor, #preview {
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto;
+        }
+        #preview {
+            background-color: #f9f9f9;
+        }
+        #toolbar {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Shiki Markdown 实时渲染</h1>
+    <div id="toolbar">
+        <button onclick="insertMarkdown('**')">粗体</button>
+        <button onclick="insertMarkdown('*')">斜体</button>
+        <button onclick="insertMarkdown('`')">行内代码</button>
+        <button onclick="insertMarkdown('# ')">标题</button>
+        <button onclick="insertMarkdown('- ')">列表</button>
+        <button onclick="insertCodeBlock('javascript')">JavaScript代码块</button>
+        <button onclick="insertCodeBlock('java')">Java代码块</button>
+        <button onclick="insertCodeBlock('python')">Python代码块</button>
+    </div>
+    <div id="container">
+        <div id="editor-container">
+            <textarea id="editor" placeholder="在此输入Markdown文本..."></textarea>
+        </div>
+        <div id="preview-container">
+            <div id="preview"></div>
+        </div>
+    </div>
+
+    <script>
+        const editor = document.getElementById('editor');
+        const preview = document.getElementById('preview');
+
+        let highlighter;
+
+        async function initializeHighlighter() {
+            highlighter = await shiki.getHighlighter({
+                theme: 'github-light',
+                langs: ['markdown', 'javascript', 'html', 'css', 'python', 'java', 'c', 'cpp']
+            });
+            updatePreview();
+        }
+
+        initializeHighlighter();
+
+        editor.addEventListener('input', updatePreview);
+
+        function updatePreview() {
+            const markdown = editor.value;
+            const html = marked.parse(markdown, {
+                highlight: (code, lang) => {
+                    if (highlighter) {
+                        return highlighter.codeToHtml(code, { lang });
+                    }
+                    return code;
+                }
+            });
+            preview.innerHTML = html;
+            localStorage.setItem('markdownContent', markdown);
+        }
+
+        function insertMarkdown(syntax) {
+            const start = editor.selectionStart;
+            const end = editor.selectionEnd;
+            const text = editor.value;
+            const before = text.substring(0, start);
+            const selection = text.substring(start, end);
+            const after = text.substring(end);
+            editor.value = before + syntax + selection + syntax + after;
+            editor.selectionStart = start + syntax.length;
+            editor.selectionEnd = end + syntax.length;
+            editor.focus();
+            updatePreview();
+        }
+
+        function insertCodeBlock(lang) {
+            const codeBlock = `\n\`\`\`${lang}\n// 在此输入${lang}代码\n\`\`\`\n`;
+            const start = editor.selectionStart;
+            const text = editor.value;
+            const before = text.substring(0, start);
+            const after = text.substring(start);
+            editor.value = before + codeBlock + after;
+            editor.selectionStart = start + codeBlock.length - 4;
+            editor.selectionEnd = start + codeBlock.length - 4;
+            editor.focus();
+            updatePreview();
+        }
+
+        // 加载保存的内容
+        const savedContent = localStorage.getItem('markdownContent');
+        if (savedContent) {
+            editor.value = savedContent;
+            updatePreview();
+        }
+    </script>
+</body>
+</html>
