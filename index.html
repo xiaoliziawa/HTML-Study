@@ -132,6 +132,27 @@
             height: 32px;
             fill: #24292e;
         }
+
+        /* 移动端适配标签页描述(我真的服了，改一处代码另一处就坏，人要麻了😇😡💩) */
+        @media (max-width: 600px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+            .card {
+                height: auto;
+            }
+            .link {
+                padding: 15px;
+            }
+            .link-title {
+                font-size: 1em;
+                margin-bottom: 5px;
+            }
+            .link-description {
+                font-size: 0.8em;
+                display: block; 
+            }
+        }
     </style>
 </head>
 <body>
@@ -238,7 +259,7 @@
             const cards = document.querySelectorAll('.card');
             cards.forEach(card => {
                 card.style.display = 'flex';
-            });     
+            });
         }
 
         document.getElementById('search').addEventListener('input', function() {
