@@ -17,17 +17,17 @@
         body {
             font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
             background-color: var(--background-color);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
             margin: 0;
-            padding: 20px;
+            padding: 0;
             box-sizing: border-box;
+            scroll-behavior: smooth;
         }
         .container {
             max-width: 800px;
             width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            box-sizing: border-box;
         }
         h1 {
             color: var(--text-color);
@@ -40,6 +40,10 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
             gap: 20px;
+            scroll-snap-type: y mandatory;
+            height: calc(100vh - 150px);
+            overflow-y: auto;
+            padding: 20px;
         }
         .card {
             background-color: var(--card-color);
@@ -47,13 +51,19 @@
             overflow: hidden;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             transition: all 0.3s ease;
+            scroll-snap-align: start;
+            display: flex;
+            flex-direction: column;
         }
         .card:hover {
             transform: translateY(-5px);
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
         }
         .link {
-            display: block;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
             padding: 20px;
             text-decoration: none;
             color: var(--text-color);
@@ -63,6 +73,9 @@
             background-color: var(--primary-color);
             color: white;
         }
+        .link:hover .link-description {
+            color: white;
+        }
         .link-title {
             font-size: 1.2em;
             margin-bottom: 10px;
@@ -70,6 +83,7 @@
         .link-description {
             font-size: 0.9em;
             color: var(--secondary-text-color);
+            transition: color 0.3s ease;
         }
         .search-container {
             display: flex;
@@ -181,7 +195,7 @@
                 searchInput.focus();
             } else {
                 searchInput.value = '';
-                filterCards('');
+                showAllCards(); // 使用新函数来显示所有卡片
             }
         }
 
@@ -193,10 +207,17 @@
                 const title = card.querySelector('.link-title').textContent.toLowerCase();
                 const description = card.querySelector('.link-description').textContent.toLowerCase();
                 if (title.includes(searchTerm) || description.includes(searchTerm)) {
-                    card.style.display = 'block';
+                    card.style.display = 'flex'; // 改为 'flex'
                 } else {
                     card.style.display = 'none';
                 }
+            });
+        }
+
+        function showAllCards() {
+            const cards = document.querySelectorAll('.card');
+            cards.forEach(card => {
+                card.style.display = 'flex'; // 使用 'flex' 而不是 'block'
             });
         }
 
