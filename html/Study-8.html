@@ -23,6 +23,7 @@
             padding: 40px;
             border-radius: 20px;
             box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.5s;
         }
 
         #sun-moon {
@@ -34,6 +35,7 @@
             font-size: 3em;
             margin-bottom: 30px;
             color: #1e2022;
+            transition: color 0.5s;
         }
 
         #analog-clock {
@@ -46,18 +48,22 @@
             position: absolute;
             top: 0;
             left: 0;
+            transform: rotate(-90deg);
         }
 
         #hour-ring {
             stroke: #1e2022;
+            transition: stroke-dashoffset 0.5s;
         }
 
         #minute-ring {
-            stroke: #3a4750;
+            stroke: #4a90e2;
+            transition: stroke-dashoffset 0.5s;
         }
 
         #second-ring {
-            stroke: #c9d6df;
+            stroke: #e74c3c;
+            transition: stroke-dashoffset 0.5s;
         }
 
         #clock-center {
@@ -96,13 +102,14 @@
             const hours = now.getHours();
             const minutes = now.getMinutes();
             const seconds = now.getSeconds();
+            const milliseconds = now.getMilliseconds();
 
             document.getElementById('digital-clock').textContent =
                 `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
 
-            updateRing('hour-ring', (hours % 12) / 12, 879.6);
-            updateRing('minute-ring', minutes / 60, 753.6);
-            updateRing('second-ring', seconds / 60, 628);
+            updateRing('hour-ring', (hours % 12 + minutes / 60) / 12, 879.6);
+            updateRing('minute-ring', (minutes + seconds / 60) / 60, 753.6);
+            updateRing('second-ring', (seconds + milliseconds / 1000) / 60, 628);
 
             const isDay = hours >= 6 && hours < 18;
             document.getElementById('sun-moon').textContent = isDay ? '☀️' : '🌙';
@@ -111,7 +118,7 @@
             document.getElementById('digital-clock').style.color = isDay ? '#1e2022' : '#f0f5f9';
 
             if (customTime) {
-                customTime.setSeconds(customTime.getSeconds() + 1);
+                customTime.setMilliseconds(customTime.getMilliseconds() + 16);
             }
         }
 
@@ -168,6 +175,7 @@
             customTime.setHours(value * 12);
             customTime.setMinutes(0);
             customTime.setSeconds(0);
+            customTime.setMilliseconds(0);
             updateClock();
         }
 
@@ -175,12 +183,14 @@
             customTime = customTime || new Date();
             customTime.setMinutes(value * 60);
             customTime.setSeconds(0);
+            customTime.setMilliseconds(0);
             updateClock();
         }
 
         function updateSecondRing(value) {
             customTime = customTime || new Date();
             customTime.setSeconds(value * 60);
+            customTime.setMilliseconds(0);
             updateClock();
         }
 
@@ -193,8 +203,12 @@
             updateClock();
         });
 
-        setInterval(updateClock, 1000);
-        updateClock();
+        function animateClock() {
+            updateClock();
+            requestAnimationFrame(animateClock);
+        }
+
+        animateClock();
     </script>
 </body>
 
