@@ -49,14 +49,8 @@
         <button onclick="insertMarkdown('# ')">标题</button>
         <button onclick="insertMarkdown('- ')">列表</button>
         <button onclick="insertCodeBlock('javascript')">JavaScript代码块</button>
-        <button onclick="insertCodeBlock('python')">Python代码块</button>
         <button onclick="insertCodeBlock('java')">Java代码块</button>
-        <button onclick="insertCodeBlock('cpp')">C++代码块</button>
-        <button onclick="insertCodeBlock('csharp')">C#代码块</button>
-        <button onclick="insertCodeBlock('go')">Go代码块</button>
-        <button onclick="insertCodeBlock('rust')">Rust代码块</button>
-        <button onclick="insertCodeBlock('php')">PHP代码块</button>
-        <button onclick="insertCodeBlock('ruby')">Ruby代码块</button>
+        <button onclick="insertCodeBlock('python')">Python代码块</button>
     </div>
     <div id="container">
         <div id="editor-container">
@@ -76,17 +70,7 @@
         async function initializeHighlighter() {
             highlighter = await shiki.getHighlighter({
                 theme: 'github-light',
-                langs: [
-                    'markdown', 'javascript', 'typescript', 'html', 'css', 'xml', 'json', 'yaml',
-                    'python', 'java', 'c', 'cpp', 'csharp', 'go', 'rust', 'swift', 'kotlin',
-                    'php', 'ruby', 'perl', 'shell', 'sql', 'lua', 'r', 'matlab',
-                    'haskell', 'scala', 'groovy', 'objective-c', 'vb', 'latex',
-                    'dockerfile', 'makefile', 'bash', 'powershell',
-                    'graphql', 'handlebars', 'less', 'scss', 'stylus',
-                    'wasm', 'dart', 'elixir', 'erlang', 'fortran', 'fsharp',
-                    'julia', 'lisp', 'ocaml', 'pascal', 'prolog', 'pug',
-                    'scheme', 'smalltalk', 'toml', 'verilog', 'vhdl'
-                ]
+                langs: ['markdown', 'javascript', 'html', 'css', 'python', 'java', 'c', 'cpp']
             });
             updatePreview();
         }
