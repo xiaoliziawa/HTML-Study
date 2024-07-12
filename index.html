@@ -9,7 +9,7 @@
         :root {
             --primary-color: #4a90e2;
             --hover-color: #357abd;
-            --background-color: #f0f0f0;
+            --background-color: #f9f9f9;
             --card-color: #ffffff;
             --text-color: #333333;
             --secondary-text-color: #666666;
@@ -21,25 +21,37 @@
             padding: 0;
             box-sizing: border-box;
             scroll-behavior: smooth;
+            line-height: 1.6;
         }
         .container {
-            max-width: 800px;
+            max-width: 1000px;
             width: 100%;
             margin: 0 auto;
             padding: 20px;
             box-sizing: border-box;
         }
-        h1 {
-            color: var(--text-color);
+        header {
+            background-color: var(--primary-color);
+            color: white;
             text-align: center;
-            margin-bottom: 20px;
+            padding: 40px 0;
+            margin-bottom: 30px;
+        }
+        h1 {
+            color: white;
+            margin: 0;
             font-weight: 300;
             font-size: 2.5em;
         }
+        .subtitle {
+            font-size: 1.2em;
+            margin-top: 10px;
+            opacity: 0.8;
+        }
         .grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
             padding: 20px;
         }
         .card {
@@ -73,15 +85,16 @@
             color: white;
         }
         .link-title {
-            font-size: 1.2em;
+            font-size: 1.4em;
             margin-bottom: 10px;
             word-wrap: break-word;
         }
         .link-description {
-            font-size: 0.9em;
+            font-size: 1em;
             color: var(--secondary-text-color);
             transition: color 0.3s ease;
             word-wrap: break-word;
+            flex-grow: 1;
         }
         .search-container {
             display: flex;
@@ -97,21 +110,18 @@
             color: var(--text-color);
         }
         #search {
-            width: 0;
+            width: 300px;
             padding: 10px;
-            border: none;
-            border-bottom: 2px solid var(--primary-color);
+            border: 2px solid var(--primary-color);
+            border-radius: 20px;
             font-size: 1em;
-            background: transparent;
+            background: white;
             color: var(--text-color);
             transition: width 0.3s ease;
             outline: none;
         }
-        #search.active {
-            width: 200px;
-        }
-        .search-icon.hidden {
-            opacity: 0;
+        #search:focus {
+            width: 350px;
         }
         #search::placeholder {
             color: var(--secondary-text-color);
@@ -130,6 +140,13 @@
             height: 32px;
             fill: #24292e;
         }
+        footer {
+            text-align: center;
+            padding: 20px 0;
+            background-color: var(--primary-color);
+            color: white;
+            margin-top: 50px;
+        }
         @media (max-width: 600px) {
             .grid {
                 grid-template-columns: 1fr;
@@ -141,25 +158,30 @@
                 padding: 15px;
             }
             .link-title {
-                font-size: 1em;
-                margin-bottom: 5px;
+                font-size: 1.2em;
             }
             .link-description {
-                font-size: 0.8em;
+                font-size: 0.9em;
             }
-            #search.active {
-                width: 150px;
+            #search {
+                width: 200px;
+            }
+            #search:focus {
+                width: 250px;
             }
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.13.2/dist/index.js"></script>
 </head>
 <body>
+    <header>
+        <h1>导航页</h1>
+        <p class="subtitle">请开始你的学习！</p>
+    </header>
+    
     <div class="container">
-        <h1>开始你的学习</h1>
         <div class="search-container">
-            <span class="search-icon" onclick="toggleSearch()">🔍</span>
-            <input type="text" id="search" placeholder="搜索...">
+            <input type="text" id="search" placeholder="搜索文章...">
         </div>
         <div class="grid">
             <div class="card">
@@ -237,6 +259,10 @@
         </div>
     </div>
 
+    <footer>
+        <p>&copy; 2024 HTML-Study. xiaoliziawa保留所有权利.</p>
+    </footer>
+
     <a href="https://github.com/xiaoliziawa/HTML-Study" target="_blank" class="github-link">
         <svg class="github-logo" viewBox="0 0 16 16" version="1.1" aria-hidden="true">
             <path fill-rule="evenodd" d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"></path>
@@ -244,19 +270,6 @@
     </a>
 
     <script>
-        function toggleSearch() {
-            const searchInput = document.getElementById('search');
-            const searchIcon = document.querySelector('.search-icon');
-            searchInput.classList.toggle('active');
-            searchIcon.classList.toggle('hidden');
-            if (searchInput.classList.contains('active')) {
-                searchInput.focus();
-            } else {
-                searchInput.value = '';
-                showAllCards();
-            }
-        }
-
         function filterCards(searchTerm) {
             const cards = document.querySelectorAll('.card');
             searchTerm = searchTerm.toLowerCase();
@@ -276,23 +289,8 @@
             });
         }
 
-        function showAllCards() {
-            const cards = document.querySelectorAll('.card');
-            cards.forEach(card => {
-                card.style.display = 'flex';
-            });
-        }
-
         document.getElementById('search').addEventListener('input', function() {
             filterCards(this.value);
-        });
-
-        document.addEventListener('click', function(event) {
-            const searchContainer = document.querySelector('.search-container');
-            const searchInput = document.getElementById('search');
-            if (!searchContainer.contains(event.target) && searchInput.classList.contains('active')) {
-                toggleSearch();
-            }
         });
     </script>
 </body>
