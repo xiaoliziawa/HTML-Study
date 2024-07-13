@@ -20,7 +20,6 @@
             height: 200px;
             transform-style: preserve-3d;
             transform: rotateX(0deg) rotateY(0deg);
-            transition: transform 0.5s;
         }
         .face {
             position: absolute;
@@ -59,8 +58,19 @@
             rotateY: 0
         };
 
+        let autoRotate = true;
+
+        function animate() {
+            if (autoRotate) {
+                transform.rotateY += 0.5;
+            }
+            cube.style.transform = `rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg)`;
+            requestAnimationFrame(animate);
+        }
+
         document.addEventListener('mousedown', function(e) {
             isDragging = true;
+            autoRotate = false;
             previousMousePosition = {
                 x: e.clientX,
                 y: e.clientY
@@ -69,6 +79,7 @@
 
         document.addEventListener('mouseup', function() {
             isDragging = false;
+            autoRotate = true;
         });
 
         document.addEventListener('mousemove', function(e) {
@@ -81,8 +92,6 @@
                 transform.rotateY += deltaMove.x * 0.5;
                 transform.rotateX -= deltaMove.y * 0.5;
 
-                cube.style.transform = `rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg)`;
-
                 previousMousePosition = {
                     x: e.clientX,
                     y: e.clientY
@@ -90,9 +99,9 @@
             }
         });
 
-        // Mobile touch support
         document.addEventListener('touchstart', function(e) {
             isDragging = true;
+            autoRotate = false;
             previousMousePosition = {
                 x: e.touches[0].clientX,
                 y: e.touches[0].clientY
@@ -101,6 +110,7 @@
 
         document.addEventListener('touchend', function() {
             isDragging = false;
+            autoRotate = true;
         });
 
         document.addEventListener('touchmove', function(e) {
@@ -113,14 +123,14 @@
                 transform.rotateY += deltaMove.x * 0.5;
                 transform.rotateX -= deltaMove.y * 0.5;
 
-                cube.style.transform = `rotateX(${transform.rotateX}deg) rotateY(${transform.rotateY}deg)`;
-
                 previousMousePosition = {
                     x: e.touches[0].clientX,
                     y: e.touches[0].clientY
                 };
             }
         });
+
+        animate();
     </script>
 </body>
 </html>
