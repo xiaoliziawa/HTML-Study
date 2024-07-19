@@ -6,9 +6,21 @@
     <style>
         body { margin: 0; }
         canvas { display: block; }
+        #control-panel {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 10px;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
+    <div id="control-panel">
+        <label for="speed">Animation Speed:</label>
+        <input type="range" id="speed" min="0" max="0.1" step="0.001" value="0.01">
+    </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
         var scene = new THREE.Scene();
@@ -67,8 +79,9 @@
         camera.position.z = 5;
 
         var angle = 0;
+        var speedControl = document.getElementById('speed');
         function animate() {
-            angle += 0.01;
+            angle += parseFloat(speedControl.value);
             var projected = project(vertices, angle);
             var positions = [];
             for (var i = 0; i < edges.length; i++) {
