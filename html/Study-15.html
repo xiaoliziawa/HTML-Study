@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cube</title>
+    <style>
+        body { margin: 0; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        var renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        var vertices = [
+            [-1, -1, -1, -1], [1, -1, -1, -1], [-1, 1, -1, -1], [1, 1, -1, -1],
+            [-1, -1, 1, -1], [1, -1, 1, -1], [-1, 1, 1, -1], [1, 1, 1, -1],
+            [-1, -1, -1, 1], [1, -1, -1, 1], [-1, 1, -1, 1], [1, 1, -1, 1],
+            [-1, -1, 1, 1], [1, -1, 1, 1], [-1, 1, 1, 1], [1, 1, 1, 1]
+        ];
+
+        var edges = [
+            [0, 1], [1, 3], [3, 2], [2, 0],
+            [4, 5], [5, 7], [7, 6], [6, 4],
+            [0, 4], [1, 5], [2, 6], [3, 7],
+            [8, 9], [9, 11], [11, 10], [10, 8],
+            [12, 13], [13, 15], [15, 14], [14, 12],
+            [8, 12], [9, 13], [10, 14], [11, 15],
+            [0, 8], [1, 9], [2, 10], [3, 11],
+            [4, 12], [5, 13], [6, 14], [7, 15]
+        ];
+
+        function project(vertices, angle) {
+            var projected = [];
+            var cos = Math.cos(angle);
+            var sin = Math.sin(angle);
+            for (var i = 0; i < vertices.length; i++) {
+                var x = vertices[i][0];
+                var y = vertices[i][1];
+                var z = vertices[i][2];
+                var w = vertices[i][3];
+
+                var xRot = cos * x - sin * w;
+                var wRot = sin * x + cos * w;
+                var zRot = cos * z - sin * y;
+                var yRot = sin * z + cos * y;
+
+                var factor = 2 / (4 - wRot);
+                var xProj = xRot * factor;
+                var yProj = yRot * factor;
+                var zProj = zRot * factor;
+                projected.push(new THREE.Vector3(xProj, yProj, zProj));
+            }
+            return projected;
+        }
+
+        var material = new THREE.LineBasicMaterial({ color: 0xffffff });
+        var geometry = new THREE.BufferGeometry();
+        var line = new THREE.LineSegments(geometry, material);
+        scene.add(line);
+
+        camera.position.z = 5;
+
+        var angle = 0;
+        function animate() {
+            angle += 0.01;
+            var projected = project(vertices, angle);
+            var positions = [];
+            for (var i = 0; i < edges.length; i++) {
+                positions.push(projected[edges[i][0]].x, projected[edges[i][0]].y, projected[edges[i][0]].z);
+                positions.push(projected[edges[i][1]].x, projected[edges[i][1]].y, projected[edges[i][1]].z);
+            }
+            geometry.setAttribute('position', new THREE.Float32BufferAttribute(positions, 3));
+            renderer.render(scene, camera);
+            requestAnimationFrame(animate);
+        }
+
+        animate();
+    </script>
+</body>
+</html>
