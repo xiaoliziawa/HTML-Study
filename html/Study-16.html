@@ -1,12 +1,20 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>cube控制</title>
     <style>
-        body { margin: 0; overflow: hidden; }
-        canvas { display: block; }
+        body {
+            margin: 0;
+            overflow: hidden;
+        }
+
+        canvas {
+            display: block;
+        }
+
         #mobileControls {
             position: fixed;
             bottom: 20px;
@@ -14,20 +22,35 @@
             transform: translateX(-50%);
             display: flex;
             flex-direction: column;
+            align-items: center;
         }
+
         #mobileControls button {
             margin: 5px;
-            padding: 10px;
+            padding: 15px 25px;
+            font-size: 20px;
+            background-color: rgba(255, 255, 255, 0.7);
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
         }
+
+        #mobileControls button:hover {
+            background-color: rgba(255, 255, 255, 0.9);
+        }
+
         #controlPanel {
             position: fixed;
             top: 10px;
             right: 10px;
-            background: rgba(255,255,255,0.7);
+            background: rgba(255, 255, 255, 0.7);
             padding: 10px;
+            border-radius: 5px;
         }
     </style>
 </head>
+
 <body>
     <div id="mobileControls">
         <button id="upBtn">↑</button>
@@ -37,10 +60,10 @@
         </div>
         <button id="downBtn">↓</button>
     </div>
-    
+
     <div id="controlPanel">
-        <label>Rotation Speed: <input type="range" id="rotationSpeed" min="0" max="0.1" step="0.001" value="0.01"></label><br>
-        <label>Wireframe: <input type="checkbox" id="wireframe"></label><br>
+        <label>Rotation Speed: <input type="range" id="rotationSpeed" min="0" max="0.1" step="0.001"
+                value="0.01"></label><br>
         <label>Color: <input type="color" id="cubeColor" value="#00ff00"></label><br>
         <label>Size: <input type="range" id="cubeSize" min="0.1" max="2" step="0.1" value="1"></label>
     </div>
@@ -59,7 +82,7 @@
             document.body.appendChild(renderer.domElement);
 
             const geometry = new THREE.BoxGeometry();
-            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            const material = new THREE.MeshBasicMaterial({ color: 0x00ff00, wireframe: true });
             cube = new THREE.Mesh(geometry, material);
             scene.add(cube);
 
@@ -84,7 +107,7 @@
 
         function onKeyDown(event) {
             const speed = 0.1;
-            switch(event.keyCode) {
+            switch (event.keyCode) {
                 case 37: cube.position.x -= speed; break;
                 case 39: cube.position.x += speed; break;
                 case 38: cube.position.y += speed; break;
@@ -100,7 +123,6 @@
         });
 
         document.getElementById('rotationSpeed').addEventListener('input', (e) => rotationSpeed = parseFloat(e.target.value));
-        document.getElementById('wireframe').addEventListener('change', (e) => cube.material.wireframe = e.target.checked);
         document.getElementById('cubeColor').addEventListener('input', (e) => cube.material.color.setHex(e.target.value.replace('#', '0x')));
         document.getElementById('cubeSize').addEventListener('input', (e) => {
             const size = parseFloat(e.target.value);
@@ -112,4 +134,5 @@
         document.addEventListener('keydown', onKeyDown);
     </script>
 </body>
+
 </html>
