@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Index.html(新草案)</title>
+    <style>
+        :root {
+            --primary-color: #00eaff;
+            --secondary-color: #ff00ea;
+            --background-color: #0d0d0d;
+            --text-color: #ffffff;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Roboto', sans-serif;
+            color: var(--text-color);
+            background: var(--background-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        header {
+            background: rgba(0, 0, 0, 0.8);
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-around;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        nav a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+        }
+
+        nav a:hover {
+            background-color: var(--primary-color);
+            color: var(--background-color);
+        }
+
+        .container {
+            flex-grow: 1;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding: 2rem;
+            justify-content: center;
+            align-items: flex-start;
+        }
+
+        .card {
+            background: linear-gradient(145deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.05) 100%);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+            width: 300px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 48px rgba(0, 234, 255, 0.3);
+        }
+
+        .card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .card-content h3 {
+            margin: 0;
+            color: var(--primary-color);
+            font-size: 1.5rem;
+        }
+
+        .card-content p {
+            color: #ddd;
+            font-size: 1rem;
+            line-height: 1.6;
+        }
+
+        .card-content .card-text {
+            flex-grow: 1;
+            display: -webkit-box;
+            -webkit-line-clamp: 3;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-clamp: 3;
+        }
+
+        footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: var(--text-color);
+            text-align: center;
+            padding: 1rem;
+            margin-top: auto;
+        }
+
+        .floating-dots {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .dot {
+            position: absolute;
+            background: radial-gradient(circle, var(--primary-color) 0%, transparent 70%);
+            border-radius: 50%;
+            opacity: 0;
+            animation: float 20s infinite linear, fadeIn 5s forwards;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translate(0, 0);
+            }
+
+            100% {
+                transform: translate(100vw, 100vh);
+            }
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+            }
+
+            100% {
+                opacity: 0.5;
+            }
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 1rem auto;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-color);
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            background: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+
+            .card {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <a href="https://github.com/xiaoliziawa/HTML-Study">
+                <svg height="32" aria-hidden="true" viewBox="0 0 16 16" version="1.1" width="32"
+                    data-view-component="true">
+                    <path fill-rule="evenodd"
+                        d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"
+                        fill="#ffffff"></path>
+                </svg>
+            </a>
+        </nav>
+    </header>
+
+    <div class="search-container" id="search-container">
+        <input type="text" class="search-input" placeholder="Searching..." id="search-input">
+    </div>
+
+    <div class="container">
+        <div class="card" onclick="window.location.href='#'">
+            <div class="card-content">
+                <h3>TEST-1</h3>
+                <div class="card-text">
+                    <p>Hello</p>
+                </div>
+            </div>
+        </div>
+        <div class="card" onclick="window.location.href='#'">
+            <div class="card-content">
+                <h3>TEST-2</h3>
+                <div class="card-text">
+                    <p>World</p>
+                    <p>111111</p>
+                </div>
+            </div>
+        </div>
+        <div class="card" onclick="window.location.href='#'">
+            <div class="card-content">
+                <h3>TEST-1</h3>
+                <div class="card-text">
+                    <p>Hello</p>
+                </div>
+            </div>
+        </div>
+        <div class="card" onclick="window.location.href='#'">
+            <div class="card-content">
+                <h3>TEST-3</h3>
+                <div class="card-text">
+                    <p>!!!</p>
+                    <p>111111</p>
+                    <p>111111</p>
+                </div>
+            </div>
+        </div>
+        <div class="card" onclick="window.location.href='#'">
+            <div class="card-content">
+                <h3>TEST-1</h3>
+                <div class="card-text">
+                    <p>Hello</p>
+                </div>
+            </div>
+        </div>
+        <div class="card" onclick="window.location.href='#'">
+            <div class="card-content">
+                <h3>TEST-3</h3>
+                <div class="card-text">
+                    <p>!!!</p>
+                    <p>111111</p>
+                    <p>111111</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2024 Github Page & HTML-Study</p>
+    </footer>
+
+    <div class="floating-dots" id="floating-dots"></div>
+
+    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.18.2/dist/index.js"></script>
+    <script>
+        const numDots = 200;
+        const container = document.getElementById('floating-dots');
+
+        for (let i = 0; i < numDots; i++) {
+            const dot = document.createElement('div');
+            dot.className = 'dot';
+            const size = Math.random() * 10 + 5;
+            dot.style.width = `${size}px`;
+            dot.style.height = `${size}px`;
+            dot.style.top = `${Math.random() * 100}vh`;
+            dot.style.left = `${Math.random() * 100}vw`;
+            dot.style.animationDuration = `${Math.random() * 20 + 10}s`;
+            dot.style.animationDelay = `${Math.random() * 10}s`;
+            container.appendChild(dot);
+        }
+
+        function pinyinSearch(input, text) {
+            const normalizedInput = input.toLowerCase();
+            const normalizedText = pinyinPro.pinyin(text, { toneType: 'none', type: 'array' }).join('').toLowerCase();
+
+            return normalizedText.includes(normalizedInput) || text.toLowerCase().includes(normalizedInput);
+        }
+
+        const searchInput = document.getElementById('search-input');
+        searchInput.addEventListener('input', () => {
+            const searchTerm = searchInput.value.trim();
+            const cards = document.querySelectorAll('.card');
+
+            cards.forEach(card => {
+                const title = card.querySelector('h3').textContent;
+                const content = card.querySelector('.card-text').textContent;
+                const isMatch = pinyinSearch(searchTerm, title) || pinyinSearch(searchTerm, content);
+                card.style.display = isMatch ? 'block' : 'none';
+            });
+        });
+    </script>
+</body>
+
+</html>
