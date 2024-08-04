@@ -11,19 +11,23 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             background-color: #f0f0f0;
+            padding: 20px;
+            box-sizing: border-box;
         }
         #maze {
             border: 2px solid #333;
             background-color: #fff;
             box-shadow: 0 0 10px rgba(0,0,0,0.1);
             margin-bottom: 20px;
+            max-width: 100%;
+            overflow-x: auto;
         }
         .cell {
-            width: 20px;
-            height: 20px;
+            width: 15px;
+            height: 15px;
             display: inline-block;
         }
         .wall { background-color: #333; }
@@ -39,11 +43,23 @@
             color: white;
             border: none;
             border-radius: 5px;
-            margin: 0 10px;
+            margin: 10px 5px;
             transition: background-color 0.3s;
+            width: 100%;
+            max-width: 200px;
         }
         button:hover {
             background-color: #1976D2;
+        }
+        @media (max-width: 600px) {
+            .cell {
+                width: 10px;
+                height: 10px;
+            }
+            button {
+                font-size: 14px;
+                padding: 8px 16px;
+            }
         }
     </style>
 </head>
