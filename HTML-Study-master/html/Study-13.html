@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>3D Cube</title>
+    <style>
+        body { 
+            margin: 0; 
+            overflow: hidden; 
+            touch-action: none;
+        }
+        canvas { 
+            display: block; 
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+    <script>
+        let scene, camera, renderer, cube, pointLight;
+        let isDragging = false;
+        let previousMousePosition = { x: 0, y: 0 };
+        let previousTouchPosition = { x: 0, y: 0 };
+
+        const params = {
+            rotationSpeed: 0.01,
+            cubeColor: 0x00ff00,
+            wireframe: false,
+            lightIntensity: 1,
+            lightColor: 0xffffff,
+            cubeSize: 1
+        };
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            renderer.setClearColor(0x000000, 1);
+            document.body.appendChild(renderer.domElement);
+
+            createCube();
+
+            const ambientLight = new THREE.AmbientLight(0x404040);
+            scene.add(ambientLight);
+
+            pointLight = new THREE.PointLight(params.lightColor, params.lightIntensity);
+            pointLight.position.set(5, 5, 5);
+            scene.add(pointLight);
+
+            createStars();
+
+            camera.position.z = 5;
+
+            renderer.domElement.addEventListener('mousedown', onMouseDown);
+            renderer.domElement.addEventListener('mousemove', onMouseMove);
+            renderer.domElement.addEventListener('mouseup', onMouseUp);
+            renderer.domElement.addEventListener('wheel', onMouseWheel);
+
+            renderer.domElement.addEventListener('touchstart', onTouchStart);
+            renderer.domElement.addEventListener('touchmove', onTouchMove);
+            renderer.domElement.addEventListener('touchend', onTouchEnd);
+
+            window.addEventListener('resize', onWindowResize);
+
+            const gui = new dat.GUI();
+            gui.add(params, 'rotationSpeed', 0, 0.1);
+            gui.addColor(params, 'cubeColor').onChange(updateCubeColor);
+            gui.add(params, 'wireframe').onChange(updateCubeWireframe);
+            gui.add(params, 'lightIntensity', 0, 2).onChange(updateLightIntensity);
+            gui.addColor(params, 'lightColor').onChange(updateLightColor);
+            gui.add(params, 'cubeSize', 0.1, 3).onChange(updateCubeSize);
+
+            // Adjust GUI position for mobile
+            gui.domElement.style.position = 'absolute';
+            gui.domElement.style.top = '10px';
+            gui.domElement.style.right = '10px';
+
+            animate();
+        }
+
+        function createCube() {
+            const geometry = new THREE.BoxGeometry(params.cubeSize, params.cubeSize, params.cubeSize);
+            const material = new THREE.MeshPhongMaterial({
+                color: params.cubeColor,
+                wireframe: params.wireframe,
+                shininess: 100
+            });
+            cube = new THREE.Mesh(geometry, material);
+            scene.add(cube);
+        }
+
+        function createStars() {
+            const starGeometry = new THREE.BufferGeometry();
+            const starMaterial = new THREE.PointsMaterial({ color: 0xffffff });
+            const starVertices = [];
+            for (let i = 0; i < 10000; i++) {
+                const x = (Math.random() - 0.5) * 2000;
+                const y = (Math.random() - 0.5) * 2000;
+                const z = -Math.random() * 2000;
+                starVertices.push(x, y, z);
+            }
+            starGeometry.setAttribute('position', new THREE.Float32BufferAttribute(starVertices, 3));
+            const stars = new THREE.Points(starGeometry, starMaterial);
+            scene.add(stars);
+        }
+
+        function updateCubeColor() {
+            cube.material.color.setHex(params.cubeColor);
+        }
+
+        function updateCubeWireframe() {
+            cube.material.wireframe = params.wireframe;
+        }
+
+        function updateLightIntensity() {
+            pointLight.intensity = params.lightIntensity;
+        }
+
+        function updateLightColor() {
+            pointLight.color.setHex(params.lightColor);
+        }
+
+        function updateCubeSize() {
+            scene.remove(cube);
+            createCube();
+        }
+
+        function onMouseDown(event) {
+            isDragging = true;
+        }
+
+        function onMouseMove(event) {
+            if (isDragging) {
+                const deltaMove = {
+                    x: event.offsetX - previousMousePosition.x,
+                    y: event.offsetY - previousMousePosition.y
+                };
+
+                rotateCube(deltaMove.x, deltaMove.y);
+            }
+
+            previousMousePosition = {
+                x: event.offsetX,
+                y: event.offsetY
+            };
+        }
+
+        function onMouseUp(event) {
+            isDragging = false;
+        }
+
+        function onMouseWheel(event) {
+            camera.position.z += event.deltaY * 0.01;
+        }
+
+        function onTouchStart(event) {
+            event.preventDefault();
+            isDragging = true;
+            previousTouchPosition = {
+                x: event.touches[0].clientX,
+                y: event.touches[0].clientY
+            };
+        }
+
+        function onTouchMove(event) {
+            event.preventDefault();
+            if (isDragging) {
+                if (event.touches.length === 1) {
+                    // Single touch: rotate
+                    const deltaMove = {
+                        x: event.touches[0].clientX - previousTouchPosition.x,
+                        y: event.touches[0].clientY - previousTouchPosition.y
+                    };
+
+                    rotateCube(deltaMove.x, deltaMove.y);
+
+                    previousTouchPosition = {
+                        x: event.touches[0].clientX,
+                        y: event.touches[0].clientY
+                    };
+                } else if (event.touches.length === 2) {
+                    // Pinch to zoom
+                    const touch1 = event.touches[0];
+                    const touch2 = event.touches[1];
+                    const dist = Math.hypot(
+                        touch1.clientX - touch2.clientX,
+                        touch1.clientY - touch2.clientY
+                    );
+
+                    if (this.previousPinchDistance) {
+                        const delta = this.previousPinchDistance - dist;
+                        camera.position.z += delta * 0.01;
+                    }
+
+                    this.previousPinchDistance = dist;
+                }
+            }
+        }
+
+        function onTouchEnd(event) {
+            isDragging = false;
+            this.previousPinchDistance = null;
+        }
+
+        function rotateCube(deltaX, deltaY) {
+            cube.rotation.y += deltaX * 0.01;
+            cube.rotation.x += deltaY * 0.01;
+        }
+
+        function onWindowResize() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            if (!isDragging) {
+                cube.rotation.y += params.rotationSpeed;
+                cube.rotation.x += params.rotationSpeed * 0.5;
+            }
+
+            renderer.render(scene, camera);
+        }
+
+        init();
+    </script>
+</body>
+</html>

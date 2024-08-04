@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>卡片点击抽取</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #282c34;
+            margin: 0;
+        }
+
+        .card-container {
+            position: relative;
+            width: 600px;
+            height: 400px;
+        }
+
+        .card {
+            position: absolute;
+            width: 100px;
+            height: 150px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s, left 0.3s, top 0.3s;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-20px);
+        }
+
+        .selected {
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="card-container" id="card-container"></div>
+
+    <script src="scripts/Study-10.js"></script>
+</body>
+
+</html>

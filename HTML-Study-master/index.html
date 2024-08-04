@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="icons/1f330.webp">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HTML-Study</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #e74c3c;
+            --background-color: #ecf0f1;
+            --card-color: #ffffff;
+            --text-color: #34495e;
+        }
+
+        body {
+            font-family: 'Segoe UI', 'Microsoft YaHei', sans-serif;
+            background-color: var(--background-color);
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            color: white;
+            text-align: center;
+            padding: 60px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        h1 {
+            font-size: 3em;
+            margin: 0;
+            position: relative;
+            z-index: 1;
+        }
+
+        .subtitle {
+            font-size: 1.2em;
+            margin-top: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .header-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #f7d794);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
+        }
+
+        @keyframes gradientBG {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            padding: 40px 20px;
+        }
+
+        .card {
+            background-color: var(--card-color);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            position: relative;
+        }
+
+        .card:hover {
+            transform: translateY(-10px) rotate(2deg);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .link {
+            display: block;
+            padding: 30px;
+            text-decoration: none;
+            color: var(--text-color);
+            height: 100%;
+            box-sizing: border-box;
+        }
+
+        .link-title {
+            font-size: 1.6em;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+
+        .link-description {
+            font-size: 1em;
+            color: #7f8c8d;
+        }
+
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin: 40px 0;
+        }
+
+        #search {
+            width: 60%;
+            max-width: 500px;
+            padding: 15px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.1em;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        #search:focus {
+            width: 70%;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            outline: none;
+        }
+
+        .github-link {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            transition: transform 0.3s ease;
+            z-index: 1000;
+        }
+
+        .github-link:hover {
+            transform: scale(1.1);
+        }
+
+        .github-logo {
+            width: 50px;
+            height: 50px;
+            fill: #24292e;
+            filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.3));
+        }
+
+        @media (max-width: 768px) {
+            .grid {
+                grid-template-columns: 1fr;
+            }
+
+            #search {
+                width: 80%;
+            }
+
+            #search:focus {
+                width: 90%;
+            }
+        }
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.13.2/dist/index.js"></script>
+</head>
+
+<body>
+    <header>
+        <div class="header-bg"></div>
+        <h1>HTML-Study</h1>
+        <p class="subtitle">请开始你的学习</p>
+    </header>
+
+    <div class="container">
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Searching...">
+        </div>
+        <div class="grid">
+            <div class="card">
+                <a href="html/Study-1.html" class="link">
+                    <div class="link-title">圆形滚动进度条</div>
+                    <div class="link-description">通过鼠标滚轮来进行进度条加载</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-2.html" class="link">
+                    <div class="link-title">动态填充</div>
+                    <div class="link-description">水球填充演示</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-3.html" class="link">
+                    <div class="link-title">扇形展开</div>
+                    <div class="link-description">卡片扇形展开动画</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-4.html" class="link">
+                    <div class="link-title">单页面跳转</div>
+                    <div class="link-description">平滑动画我的最爱😋</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-5.html" class="link">
+                    <div class="link-title">Markdown渲染</div>
+                    <div class="link-description">使用Shiki库来对进行Markdown渲染。这何尝不是一种尝试!</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-6.html" class="link">
+                    <div class="link-title">卡片动画1</div>
+                    <div class="link-description">卡片扇形展开动画🐟</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-7.html" class="link">
+                    <div class="link-title">Blue Ocean</div>
+                    <div class="link-description">🌊🐟🐢</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-8.html" class="link">
+                    <div class="link-title">⏰</div>
+                    <div class="link-description">个人风格的时钟。</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-9.html" class="link">
+                    <div class="link-title">Markdown实时渲染(New)</div>
+                    <div class="link-description">依旧使用Shiki进行Markdown渲染。</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-10.html" class="link">
+                    <div class="link-title">卡片点击抽取</div>
+                    <div class="link-description">看起来挺有趣</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-11.html" class="link">
+                    <div class="link-title">每日任务</div>
+                    <div class="link-description">自律的人真的很可怕！</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-12.html" class="link">
+                    <div class="link-title">绘画画板</div>
+                    <div class="link-description">这可真是太Photoshop了</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-13.html" class="link">
+                    <div class="link-title">正方体(ThreeJS)</div>
+                    <div class="link-description">因为不会,所以这个是CV大法过来的😭</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-14.html" class="link">
+                    <div class="link-title">超立方体(ThreeJS)</div>
+                    <div class="link-description">CV大法好啊!</div>
+                    <div class="link-description">正在学习ThreeJS QAQ</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Mandelbulb.html" class="link">
+                    <div class="link-title">曼德尔球(ThreeJS)</div>
+                    <div class="link-description">因为不会,所以这个也是CV大法过来的 什么时候我也能这么厉害就好了</div>
+                    <div class="link-description">鼠标滚轮可以缩放查看,右上角控制面板</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-15.html" class="link">
+                    <div class="link-title">超立方体(ThreeJS四维动画)</div>
+                    <div class="link-description">在旋转基础上进行更改</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-16.html" class="link">
+                    <div class="link-title">方块移动控制(ThreeJS)</div>
+                    <div class="link-description">电脑端可以使用方向键进行控制</div>
+                    <div class="link-description">手机端可以通过按键进行控制</div>
+                </a>
+            </div>
+            <div class="card">
+                <a href="html/Study-17.html" class="link">
+                    <div class="link-title">Index.html(新草案)</div>
+                    <div class="link-description">闲着没事写了个新的Index</div>
+                    <div class="link-description">相比于现在的Index你觉得哪个好?</div>
+                </a>
+            </div>
+            
+        </div>
+    </div>
+
+    <a href="https://github.com/xiaoliziawa/HTML-Study" target="_blank" class="github-link">
+        <svg class="github-logo" viewBox="0 0 16 16" version="1.1" aria-hidden="true">
+            <path fill-rule="evenodd"
+                d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z">
+            </path>
+        </svg>
+    </a>
+
+    <script src="index-script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>圆形进度条时钟</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f5f9;
+            font-family: 'Arial', sans-serif;
+            transition: background-color 0.5s;
+        }
+
+        .clock-container {
+            text-align: center;
+            background-color: #ffffff;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.5s;
+        }
+
+        #sun-moon {
+            font-size: 4em;
+            margin-bottom: 20px;
+        }
+
+        #digital-clock {
+            font-size: 3em;
+            margin-bottom: 30px;
+            color: #1e2022;
+            transition: color 0.5s;
+        }
+
+        #analog-clock {
+            width: 300px;
+            height: 300px;
+            position: relative;
+        }
+
+        .progress-ring {
+            position: absolute;
+            top: 0;
+            left: 0;
+            transform: rotate(-90deg);
+        }
+
+        #hour-ring {
+            stroke: #1e2022;
+            transition: stroke-dashoffset 0.5s;
+        }
+
+        #minute-ring {
+            stroke: #4a90e2;
+            transition: stroke-dashoffset 0.5s;
+        }
+
+        #second-ring {
+            stroke: #e74c3c;
+            transition: stroke-dashoffset 0.5s;
+        }
+
+        #clock-center {
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            background-color: #52616b;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="clock-container">
+        <div id="sun-moon"></div>
+        <div id="digital-clock"></div>
+        <div id="analog-clock">
+            <svg class="progress-ring" width="300" height="300">
+                <circle id="hour-ring" cx="150" cy="150" r="140" fill="transparent" stroke-width="10" />
+                <circle id="minute-ring" cx="150" cy="150" r="120" fill="transparent" stroke-width="10" />
+                <circle id="second-ring" cx="150" cy="150" r="100" fill="transparent" stroke-width="5" />
+            </svg>
+            <div id="clock-center"></div>
+        </div>
+    </div>
+
+    <script src="scripts/Study-8.js"></script>
+</body>
+
+</html>

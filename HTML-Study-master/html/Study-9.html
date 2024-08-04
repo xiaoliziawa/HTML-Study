@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shiki Markdown 实时渲染</title>
+    <script src="https://unpkg.com/shiki@0.14.1/dist/index.unpkg.iife.js"></script>
+    <script src="https://unpkg.com/marked@4.0.16/marked.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        #container {
+            display: flex;
+            flex-grow: 1;
+        }
+
+        #editor-container,
+        #preview-container {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            margin: 0 10px;
+        }
+
+        #editor,
+        #preview {
+            flex-grow: 1;
+            border: 1px solid #ccc;
+            padding: 10px;
+            overflow-y: auto;
+        }
+
+        #preview {
+            background-color: #f9f9f9;
+        }
+
+        #toolbar {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Shiki Markdown 实时渲染</h1>
+    <div id="toolbar">
+        <button onclick="insertMarkdown('**')">粗体</button>
+        <button onclick="insertMarkdown('*')">斜体</button>
+        <button onclick="insertMarkdown('`')">行内代码</button>
+        <button onclick="insertMarkdown('# ')">标题</button>
+        <button onclick="insertMarkdown('- ')">列表</button>
+        <button onclick="insertMarkdown('[我是一个URL链接](https://xiaoliziawa.github.io/HTML-Study/)')">URL</button>
+        <button onclick="insertCodeBlock('html')">HTML代码块</button>
+        <button onclick="insertCodeBlock('javascript')">JavaScript代码块</button>
+        <button onclick="insertCodeBlock('java')">Java代码块</button>
+        <button onclick="insertCodeBlock('python')">Python代码块</button>
+    </div>
+    <div id="container">
+        <div id="editor-container">
+            <textarea id="editor" placeholder="在此输入Markdown文本..."></textarea>
+        </div>
+        <div id="preview-container">
+            <div id="preview"></div>
+        </div>
+    </div>
+
+    <script src="scripts/Study-9.js"></script>
+</body>
+
+</html>

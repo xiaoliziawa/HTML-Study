@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>单页面跳转</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        nav ul {
+            list-style-type: none;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 1rem;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #ddd;
+        }
+
+        section {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            scroll-margin-top: 4rem;
+        }
+
+        #label1 {
+            background-color: #f4f4f4;
+        }
+
+        #label2 {
+            background-color: #e8e8e8;
+        }
+
+        #label3 {
+            background-color: #dcdcdc;
+        }
+
+        #label4 {
+            background-color: #d0d0d0;
+        }
+
+        #back-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            font-size: 20px;
+            cursor: pointer;
+            display: none;
+            transition: background-color 0.3s ease;
+        }
+
+        #back-to-top:hover {
+            background-color: #555;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#label1">标签1</a></li>
+                <li><a href="#label2">标签2</a></li>
+                <li><a href="#label3">标签3</a></li>
+                <li><a href="#label4">标签4</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="label1">
+        <h1>标签1</h1>
+    </section>
+
+    <section id="label2">
+        <h2>标签2</h2>
+    </section>
+
+    <section id="label3">
+        <h2>标签3</h2>
+    </section>
+
+    <section id="label4">
+        <h2>标签4</h2>
+    </section>
+
+    <button id="back-to-top" title="返回顶部">⭕</button>
+
+    <script src="scripts/Study-4.js"></script>
+</body>
+
+</html>

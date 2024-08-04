@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypercube</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        let scene, camera, renderer;
+        let hypercube;
+
+        function init() {
+            scene = new THREE.Scene();
+            camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            renderer = new THREE.WebGLRenderer({ antialias: true });
+            renderer.setSize(window.innerWidth, window.innerHeight);
+            document.body.appendChild(renderer.domElement);
+
+            createHypercube();
+
+            camera.position.z = 5;
+
+            animate();
+        }
+
+        function createHypercube() {
+            hypercube = new THREE.Object3D();
+
+            const material = new THREE.LineBasicMaterial({ color: 0x00ffff });
+            const innerGeometry = new THREE.BoxGeometry(1, 1, 1);
+            const outerGeometry = new THREE.BoxGeometry(2, 2, 2);
+
+            const innerCube = new THREE.LineSegments(new THREE.EdgesGeometry(innerGeometry), material);
+            const outerCube = new THREE.LineSegments(new THREE.EdgesGeometry(outerGeometry), material);
+
+            hypercube.add(innerCube);
+            hypercube.add(outerCube);
+
+            // 连接内外立方体的边
+            const innerVertices = innerGeometry.attributes.position.array;
+            const outerVertices = outerGeometry.attributes.position.array;
+            for (let i = 0; i < innerVertices.length; i += 3) {
+                const innerVertex = new THREE.Vector3(innerVertices[i], innerVertices[i + 1], innerVertices[i + 2]);
+                const outerVertex = new THREE.Vector3(outerVertices[i], outerVertices[i + 1], outerVertices[i + 2]);
+                
+                const geometry = new THREE.BufferGeometry().setFromPoints([innerVertex, outerVertex]);
+                const line = new THREE.Line(geometry, material);
+                hypercube.add(line);
+            }
+
+            scene.add(hypercube);
+        }
+
+        function animate() {
+            requestAnimationFrame(animate);
+
+            const time = performance.now() * 0.001;
+
+            hypercube.rotation.x = time * 0.5;
+            hypercube.rotation.y = time * 0.7;
+
+            renderer.render(scene, camera);
+        }
+
+        init();
+
+        window.addEventListener('resize', function() {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>

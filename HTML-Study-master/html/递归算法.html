@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>递归算法</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            background-color: #f0f0f0;
+        }
+        #maze {
+            border: 2px solid #333;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .cell {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+        }
+        .wall { background-color: #333; }
+        .path { background-color: #fff; }
+        .start { background-color: #4CAF50; }
+        .end { background-color: #F44336; }
+        .solution { background-color: #FFC107; }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin: 0 10px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #1976D2;
+        }
+    </style>
+</head>
+<body>
+    <h1>迷宫</h1>
+    <div id="maze"></div>
+    <div>
+        <button onclick="generateMaze()">重新生成</button>
+        <button onclick="solveMaze()">Auto</button>
+    </div>
+
+    <script>
+        const width = 21;
+        const height = 21;
+        let maze = [];
+        let solution = [];
+
+        function generateMaze() {
+            maze = Array(height).fill().map(() => Array(width).fill(1));
+            recursiveBacktracker(1, 1);
+            maze[1][1] = 2; // Start
+            maze[height-2][width-2] = 3; // End
+            drawMaze();
+        }
+
+        function recursiveBacktracker(x, y) {
+            const directions = [[0, -2], [2, 0], [0, 2], [-2, 0]];
+            directions.sort(() => Math.random() - 0.5);
+
+            for (let [dx, dy] of directions) {
+                let nx = x + dx, ny = y + dy;
+                if (nx > 0 && nx < width-1 && ny > 0 && ny < height-1 && maze[ny][nx] === 1) {
+                    maze[y + dy/2][x + dx/2] = 0;
+                    maze[ny][nx] = 0;
+                    recursiveBacktracker(nx, ny);
+                }
+            }
+        }
+
+        function drawMaze() {
+            const mazeElement = document.getElementById('maze');
+            mazeElement.innerHTML = '';
+            for (let y = 0; y < height; y++) {
+                for (let x = 0; x < width; x++) {
+                    const cell = document.createElement('div');
+                    cell.classList.add('cell');
+                    if (maze[y][x] === 1) cell.classList.add('wall');
+                    else if (maze[y][x] === 2) cell.classList.add('start');
+                    else if (maze[y][x] === 3) cell.classList.add('end');
+                    else cell.classList.add('path');
+                    mazeElement.appendChild(cell);
+                }
+                mazeElement.appendChild(document.createElement('br'));
+            }
+        }
+
+        function solveMaze() {
+            solution = [];
+            const visited = Array(height).fill().map(() => Array(width).fill(false));
+            if (bfs()) {
+                drawSolution();
+            } else {
+                alert("No solution found!");
+            }
+        }
+
+        function bfs() {
+            const queue = [[1, 1]];
+            const visited = Array(height).fill().map(() => Array(width).fill(false));
+            const parent = Array(height).fill().map(() => Array(width).fill(null));
+            visited[1][1] = true;
+
+            while (queue.length > 0) {
+                const [x, y] = queue.shift();
+                if (maze[y][x] === 3) {
+                    // Reconstruct path
+                    let current = [x, y];
+                    while (current) {
+                        solution.unshift(current);
+                        current = parent[current[1]][current[0]];
+                    }
+                    return true;
+                }
+
+                const directions = [[0, -1], [1, 0], [0, 1], [-1, 0]];
+                for (let [dx, dy] of directions) {
+                    let nx = x + dx, ny = y + dy;
+                    if (nx >= 0 && nx < width && ny >= 0 && ny < height && maze[ny][nx] !== 1 && !visited[ny][nx]) {
+                        queue.push([nx, ny]);
+                        visited[ny][nx] = true;
+                        parent[ny][nx] = [x, y];
+                    }
+                }
+            }
+            return false;
+        }
+
+        function drawSolution() {
+            const cells = document.getElementsByClassName('cell');
+            for (let i = 0; i < solution.length; i++) {
+                const [x, y] = solution[i];
+                setTimeout(() => {
+                    cells[y * width + x].classList.add('solution');
+                }, 50 * i);
+            }
+        }
+
+        generateMaze();
+    </script>
+</body>
+</html>
