@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TYX_CnJiu-Blogs</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;700&family=Roboto:wght@400;700&display=swap');
+
+        body {
+            font-family: 'Roboto', 'Noto Sans SC', sans-serif;
+            line-height: 1.8;
+            color: #333;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            padding-bottom: 60px;
+        }
+
+        @keyframes gradientAnimation {
+            0% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
+
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        header {
+            background: linear-gradient(135deg, #6e8efb, #a777e3, #6e8efb);
+            background-size: 200% 200%;
+            animation: gradientAnimation 10s ease infinite;
+            color: white;
+            text-align: center;
+            padding: 3rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            margin: 0;
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+        }
+
+        nav {
+            background-color: #333;
+            padding: 1rem;
+        }
+
+        nav ul {
+            list-style-type: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+        }
+
+        nav ul li {
+            margin: 0 1.5rem;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: color 0.3s ease;
+        }
+
+        nav ul li a:hover {
+            color: #a777e3;
+        }
+
+        main {
+            max-width: 900px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+
+        .post {
+            background-color: white;
+            border-radius: 10px;
+            padding: 2.5rem;
+            margin-bottom: 3rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            transition: max-height 0.3s ease;
+            max-height: 100px;
+        }
+
+        .post:hover {
+            max-height: 2000px;
+        }
+
+        .post h2 {
+            color: #6e8efb;
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+            cursor: pointer;
+        }
+
+        .post-meta {
+            color: #777;
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+            font-style: italic;
+        }
+
+        .post h4 {
+            color: #a777e3;
+            font-size: 1.5rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .post p {
+            margin-bottom: 1.5rem;
+            text-align: justify;
+        }
+
+        .post img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+            margin: 2rem 0;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .post ul {
+            padding-left: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .post ul li {
+            margin-bottom: 0.5rem;
+        }
+
+        .post a {
+            color: #6e8efb;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .post a:hover {
+            color: #a777e3;
+        }
+
+        footer {
+            background-color: #333;
+            color: white;
+            text-align: center;
+            padding: 1.5rem 0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            font-size: 0.9rem;
+        }
+
+        /* 美化搜索框样式 */
+        .search-container {
+            text-align: center;
+            margin: 2rem 0;
+        }
+
+        #search-input {
+            width: 80%;
+            max-width: 500px;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: 2px solid #6e8efb;
+            border-radius: 25px;
+            outline: none;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        #search-input:focus {
+            border-color: #a777e3;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        }
+
+        #search-input::placeholder {
+            color: #999;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>Blog!</h1>
+        <p>欢迎来到互联网角落！</p>
+    </header>
+
+    <nav>
+        <ul>
+            <li><a href="Error.html">关于</a></li>
+            <li><a href="https://github.com/xiaoliziawa/HTML-Study">Github</a></li>
+        </ul>
+    </nav>
+
+    <div class="search-container">
+        <input type="text" id="search-input" placeholder="Searching...">
+    </div>
+
+    <main id="main-content">
+        <article class="post">
+            <h2>关于ChatGPT最新模型的见解</h2>
+            <div class="post-meta">发布于2024年8月5日 | 作者: TYX_CnJiu</div>
+            <h4>SearchGPT</h4>
+            <p>北京时间7月26日凌晨，OpenAI发布了名为"SearchGPT"的新人工智能搜索功能的临时原型。</p>
+            <p>"我们认为今天的搜索还有改进空间。"OpenAI创始人山姆·奥特曼在X上表示，Open AI将从这款原型产品中学习并对其进行改进，然后该技术集成到ChatGPT中，使其实时且最大限度地发挥作用。 </p>
+            <img src="imgs/img1.jpg" alt="Sam-Altman" width="512" height="512">
+            <ul>
+                <li>实时搜索：SearchGPT能够实时搜索互联网，提供最新的信息和数据。</li>
+                <li>自然语言理解：用户可以用自然语言提问，SearchGPT能够理解并给出相关答案。</li>
+                <li>多源整合：SearchGPT可以从多个来源收集信息，并进行综合分析。</li>
+                <li>个性化结果：根据用户的搜索历史和偏好，提供更加个性化的搜索结果。</li>
+                <li>深度分析：不仅提供表面信息，还能进行深度分析和见解提炼。</li>
+                <li>UI界面； 界面简介，相比于其他搜索引擎，这是我见过的界面最简洁的一个。</li>
+            </ul>
+            <p>总的来说,SearchGPT确实给我们的搜索带来了许多便利，但这不明摆着抢饭碗吗?</p>
+            <p>未来Microsoft的Bing搜索引擎，以及Google搜索引擎该何去何从？又该如何发展，这将会是Microsoft和Google将面临的最大一个挑战。</p>
+
+            <p>但也有美中不足的地方:
+            <ul>
+                <li>有些时候只能使用英文回复。</li>
+                <li>准确性一般，失误的概率很大。</li>
+                <li>用户体验不够丰富,例如:
+                    <ul>
+                        <li>PPT</li>
+                        <li>思维导图</li>
+                        <li>归纳总结</li>
+                    </ul>
+                </li>
+            </ul>
+            </p>
+            <p>由于本人未获取到OpenAI官方的内侧资格，以上资料均来自互联网🌍</p>
+
+            <a href="https://openai.com/index/searchgpt-prototype/">OpenAI官网-关于SearchGPT</a>
+        </article>
+
+
+        <article class="post">
+            <h2>你好!</h2>
+            <div class="post-meta">发布于2024年8月5日 | 作者: TYX_CnJiu</div>
+            <p>这是一个测试标签</p>
+            <p>这是一个测试标签</p>
+            <p>这是一个测试标签</p>
+            <p>这是一个测试标签</p>
+            <p>这是一个测试标签</p>
+        </article>
+    </main>
+
+    <footer>
+        <p>© 2024 TYX_CnJiu's Blogs. All rights reserved.</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.13.2/dist/index.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const searchInput = document.getElementById('search-input');
+            const posts = document.querySelectorAll('.post');
+
+            searchInput.addEventListener('input', function() {
+                const searchTerm = this.value.toLowerCase();
+                const pinyinSearchTerm = pinyinPro.pinyin(searchTerm, { toneType: 'none', type: 'array' }).join('').toLowerCase();
+
+                posts.forEach(post => {
+                    const title = post.querySelector('h2').textContent;
+                    const titleLower = title.toLowerCase();
+                    const titlePinyin = pinyinPro.pinyin(titleLower, { toneType: 'none', type: 'array' }).join('').toLowerCase();
+
+                    if (titleLower.includes(searchTerm) || titlePinyin.includes(pinyinSearchTerm)) {
+                        post.style.display = '';
+                    } else {
+                        post.style.display = 'none';
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
