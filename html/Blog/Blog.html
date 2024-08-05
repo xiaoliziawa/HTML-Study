@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="zh">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,7 +14,7 @@
             color: #333;
             background-color: #f0f0f0;
             background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0),
-                              linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0);
+                linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0);
             background-size: 60px 60px;
             background-position: 0 0, 30px 30px;
             margin: 0;
@@ -88,20 +89,38 @@
         }
 
         .post {
-            background: linear-gradient(135deg, #ffffff, #f0f0f0);
-            border-radius: 10px;
-            padding: 2.5rem;
-            margin-bottom: 3rem;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            overflow: hidden;
-            transition: all 0.5s ease;
-            max-height: 100px;
-            border-left: 5px solid #6e8efb;
-        }
+    background: linear-gradient(135deg, #ffffff, #f0f0f0);
+    border-radius: 10px;
+    padding: 2.5rem;
+    margin-bottom: 3rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1), 0 6px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: all 0.5s ease;
+    max-height: 100px;
+    position: relative;
+}
 
         .post:hover {
             transform: translateY(-5px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2), 0 10px 10px rgba(0, 0, 0, 0.15);
+        }
+
+        .post:before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(135deg, #6e8efb, #a777e3, #6e8efb);
+    background-size: 200% 200%;
+    animation: gradientAnimation 10s ease infinite;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+}
+
+        .post:hover:before {
+            opacity: 1;
         }
 
         .post.expanded {
@@ -246,7 +265,7 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.9);
+            background-color: rgba(0, 0, 0, 0.9);
         }
 
         .modal-content {
@@ -363,13 +382,13 @@
 
     <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.13.2/dist/index.js"></script>
     <script>
-        document.addEventListener('DOMContentLoaded', function() {
+        document.addEventListener('DOMContentLoaded', function () {
             const searchInput = document.getElementById('search-input');
             const posts = document.querySelectorAll('.post');
             const modal = document.getElementById('imageModal');
             const modalImg = document.getElementById('modalImage');
 
-            searchInput.addEventListener('input', function() {
+            searchInput.addEventListener('input', function () {
                 const searchTerm = this.value.toLowerCase();
                 const pinyinSearchTerm = pinyinPro.pinyin(searchTerm, { toneType: 'none', type: 'array' }).join('').toLowerCase();
 
@@ -388,7 +407,7 @@
 
             posts.forEach(post => {
                 const title = post.querySelector('h2');
-                title.addEventListener('click', function() {
+                title.addEventListener('click', function () {
                     posts.forEach(p => {
                         if (p !== post) {
                             p.classList.remove('expanded');
@@ -400,13 +419,13 @@
 
             const images = document.querySelectorAll('.post img');
             images.forEach(img => {
-                img.addEventListener('click', function() {
+                img.addEventListener('click', function () {
                     modal.style.display = "block";
                     modalImg.src = this.src;
                 });
             });
 
-            modal.addEventListener('click', function() {
+            modal.addEventListener('click', function () {
                 modal.style.display = "none";
             });
         });
