@@ -11,7 +11,11 @@
             font-family: 'Roboto', 'Noto Sans SC', sans-serif;
             line-height: 1.8;
             color: #333;
-            background-color: #f9f9f9;
+            background-color: #f0f0f0;
+            background-image: linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0),
+                              linear-gradient(45deg, #f0f0f0 25%, transparent 25%, transparent 75%, #f0f0f0 75%, #f0f0f0);
+            background-size: 60px 60px;
+            background-position: 0 0, 30px 30px;
             margin: 0;
             padding: 0;
             padding-bottom: 60px;
@@ -84,18 +88,25 @@
         }
 
         .post {
-            background-color: white;
+            background: linear-gradient(135deg, #ffffff, #f0f0f0);
             border-radius: 10px;
             padding: 2.5rem;
             margin-bottom: 3rem;
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            transition: max-height 0.3s ease;
+            transition: all 0.5s ease;
             max-height: 100px;
+            border-left: 5px solid #6e8efb;
         }
 
         .post:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .post.expanded {
             max-height: 2000px;
+            background: linear-gradient(135deg, #ffffff, #e6e6ff);
         }
 
         .post h2 {
@@ -103,6 +114,11 @@
             font-size: 2.2rem;
             margin-bottom: 1rem;
             cursor: pointer;
+            transition: color 0.3s ease;
+        }
+
+        .post h2:hover {
+            color: #a777e3;
         }
 
         .post-meta {
@@ -122,6 +138,7 @@
         .post p {
             margin-bottom: 1.5rem;
             text-align: justify;
+            line-height: 1.8;
         }
 
         .post img {
@@ -130,6 +147,12 @@
             border-radius: 10px;
             margin: 2rem 0;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .post img:hover {
+            transform: scale(1.05);
         }
 
         .post ul {
@@ -139,6 +162,16 @@
 
         .post ul li {
             margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .post ul li::before {
+            content: '•';
+            color: #6e8efb;
+            font-weight: bold;
+            display: inline-block;
+            width: 1em;
+            margin-left: -1em;
         }
 
         .post a {
@@ -146,10 +179,25 @@
             text-decoration: none;
             font-weight: bold;
             transition: color 0.3s ease;
+            position: relative;
         }
 
-        .post a:hover {
-            color: #a777e3;
+        .post a::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: #a777e3;
+            visibility: hidden;
+            transform: scaleX(0);
+            transition: all 0.3s ease-in-out;
+        }
+
+        .post a:hover::after {
+            visibility: visible;
+            transform: scaleX(1);
         }
 
         footer {
@@ -163,7 +211,6 @@
             font-size: 0.9rem;
         }
 
-        /* 美化搜索框样式 */
         .search-container {
             text-align: center;
             margin: 2rem 0;
@@ -188,6 +235,52 @@
 
         #search-input::placeholder {
             color: #999;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.9);
+        }
+
+        .modal-content {
+            margin: auto;
+            display: block;
+            width: 80%;
+            max-width: 700px;
+        }
+
+        .modal-content img {
+            width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                font-size: 16px;
+            }
+
+            h1 {
+                font-size: 2.5rem;
+            }
+
+            .post h2 {
+                font-size: 1.8rem;
+            }
+
+            .post h4 {
+                font-size: 1.3rem;
+            }
+
+            .post {
+                padding: 1.5rem;
+            }
         }
     </style>
 </head>
@@ -262,11 +355,19 @@
         <p>© 2024 TYX_CnJiu's Blogs. All rights reserved.</p>
     </footer>
 
+    <div id="imageModal" class="modal">
+        <span class="modal-content">
+            <img id="modalImage">
+        </span>
+    </div>
+
     <script src="https://cdn.jsdelivr.net/npm/pinyin-pro@3.13.2/dist/index.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const searchInput = document.getElementById('search-input');
             const posts = document.querySelectorAll('.post');
+            const modal = document.getElementById('imageModal');
+            const modalImg = document.getElementById('modalImage');
 
             searchInput.addEventListener('input', function() {
                 const searchTerm = this.value.toLowerCase();
@@ -283,6 +384,30 @@
                         post.style.display = 'none';
                     }
                 });
+            });
+
+            posts.forEach(post => {
+                const title = post.querySelector('h2');
+                title.addEventListener('click', function() {
+                    posts.forEach(p => {
+                        if (p !== post) {
+                            p.classList.remove('expanded');
+                        }
+                    });
+                    post.classList.toggle('expanded');
+                });
+            });
+
+            const images = document.querySelectorAll('.post img');
+            images.forEach(img => {
+                img.addEventListener('click', function() {
+                    modal.style.display = "block";
+                    modalImg.src = this.src;
+                });
+            });
+
+            modal.addEventListener('click', function() {
+                modal.style.display = "none";
             });
         });
     </script>
